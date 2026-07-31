@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Hey Muskan 💖</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,700;1,400;1,700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+/* ─── TOKENS ─────────────────────────────────────── */
+:root{
+  --pink:    #FF6B9D;
+  --rose:    #FF2D6B;
+  --blush:   #FFB3CC;
+  --peach:   #FFCBA4;
+  --lavender:#D4BBFF;
+  --mint:    #AEFFD8;
+  --sky:     #B3E5FC;
+  --cream:   #FFF8F5;
+  --dark:    #2A1020;
+  --mid:     #7A4560;
+  --glow:    rgba(255,107,157,.4);
+
+  --ease-spring: cubic-bezier(.34,1.56,.64,1);
+  --ease-out:    cubic-bezier(.22,1,.36,1);
+  --dur: .55s;
+}
+
+/* ─── RESET ──────────────────────────────────────── */
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+html{scroll-behavior:smooth;height:100%;}
+body{
+  font-family:'Nunito',sans-serif;
+  background:var(--cream);
+  color:var(--dark);
+  overflow:hidden;
+  height:100%;
+  cursor:none;
+  -webkit-font-smoothing:antialiased;
+}
+
+/* ─── CURSOR (desktop only) ─────────────────────── */
+#cur{
+  position:fixed;width:14px;height:14px;
+  background:var(--rose);border-radius:50%;
+  pointer-events:none;z-index:99999;
+  translate:-50% -50%;
+  box-shadow:0 0 12px var(--glow);
+  will-change:left,top;
+  transition:width .2s,height .2s,background .2s;
+}
+#cur2{
+  position:fixed;width:36px;height:36px;
+  border:2px solid var(--blush);border-radius:50%;
+  pointer-events:none;z-index:99998;
+  translate:-50% -50%;
+  opacity:.5;
+  will-change:left,top;
+  transition:left .12s var(--ease-out),top .12s var(--ease-out),width .2s,height .2s;
+}
+@media(hover:none){#cur,#cur2{display:none;}body{cursor:auto;}}
+
+/* ─── HEART POP ──────────────────────────────────── */
+.hpop{
+  position:fixed;pointer-events:none;z-index:99997;
+  translate:-50% -50%;
+  animation:hpopA .9s var(--ease-out) forwards;
+  line-height:1;
+}
+@keyframes hpopA{
+  0%{opacity:1;scale:0.5;}
+  40%{scale:1.3;}
+  100%{opacity:0;translate:-50% -200%;scale:.3;}
+}
+
+/* ─── CONFETTI CANVAS ───────────────────────────── */
+#cvc{position:fixed;inset:0;pointer-events:none;z-index:9998;}
+
+/* ─── LOADER ─────────────────────────────────────── */
+#loader{
+  position:fixed;inset:0;
+  background:linear-gradient(135deg,#FF6B9D,#D4BBFF 60%,#AEFFD8);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  z-index:9999;
+  transition:opacity .8s var(--ease-out),visibility .8s;
+}
+#loader.out{opacity:0;visibility:hidden;}
+.load-heart{font-size:clamp(3.5rem,12vw,5.5rem);animation:lbeat .7s ease-in-out infinite;}
+@keyframes lbeat{0%,100%{scale:1;}50%{scale:1.35;}}
+.load-txt{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1rem,4vw,1.5rem);
+  color:#fff;margin-top:1rem;
+  letter-spacing:.03em;text-align:center;
+  padding:0 1.5rem;
+  animation:lfade 1.4s ease-in-out infinite;
+}
+@keyframes lfade{0%,100%{opacity:.45;}50%{opacity:1;}}
+
+/* ─── PROGRESS BAR ───────────────────────────────── */
+#prog{
+  position:fixed;top:0;left:0;height:3px;
+  background:linear-gradient(90deg,var(--rose),var(--lavender),var(--mint));
+  z-index:9990;
+  transition:width .5s var(--ease-out);
+  box-shadow:0 0 8px var(--glow);
+}
+
+/* ─── NAV DOTS ───────────────────────────────────── */
+#navdots{
+  position:fixed;bottom:clamp(.8rem,3vw,1.4rem);left:50%;
+  translate:-50% 0;
+  display:flex;gap:7px;z-index:9990;
+  padding:.5rem .8rem;
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(10px);
+  border-radius:50px;
+  border:1px solid rgba(255,107,157,.2);
+  transition:opacity .4s;
+}
+.ndot{
+  width:7px;height:7px;border-radius:50%;
+  background:rgba(255,45,107,.2);
+  transition:all .3s var(--ease-spring);
+  cursor:none;
+}
+.ndot.on{
+  background:var(--rose);
+  scale:1.5;
+  box-shadow:0 0 6px var(--glow);
+}
+.ndot.done{background:rgba(255,107,157,.45);}
+
+/* ─── PAGE TRANSITION OVERLAY ────────────────────── */
+#pto{
+  position:fixed;inset:0;
+  background:var(--cream);
+  z-index:9995;
+  opacity:0;pointer-events:none;
+  transition:opacity .3s var(--ease-out);
+}
+#pto.in{opacity:1;pointer-events:all;}
+
+/* ─── PAGES ──────────────────────────────────────── */
+.page{
+  position:fixed;inset:0;
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  transition:opacity .5s var(--ease-out),scale .5s var(--ease-out);
+  overflow:hidden;
+  padding:clamp(1rem,4vw,2rem);
+  padding-bottom:clamp(3.5rem,8vw,5rem);
+  will-change:opacity,scale;
+}
+.page.active{
+  opacity:1;pointer-events:all;z-index:10;scale:1;
+}
+.page.out{scale:.96;opacity:0;}
+.page.scroll-y{overflow-y:auto;overflow-x:hidden;justify-content:flex-start;padding-top:clamp(1.5rem,5vw,3rem);}
+
+/* ─── TYPOGRAPHY HELPERS ─────────────────────────── */
+.p-label{
+  font-size:clamp(.65rem,.18em + .7rem,  .78rem);
+  font-weight:800;letter-spacing:.2em;
+  text-transform:uppercase;color:var(--pink);
+  margin-bottom:.5rem;text-align:center;
+}
+.p-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.7rem,5.5vw,3rem);
+  text-align:center;line-height:1.2;
+  margin-bottom:.4rem;
+}
+.p-title em{color:var(--rose);font-style:italic;}
+.p-sub{
+  text-align:center;color:var(--mid);
+  font-size:clamp(.85rem,2.5vw,1rem);
+  font-weight:600;line-height:1.6;
+  margin-bottom:clamp(1.2rem,4vw,2rem);
+}
+
+/* ─── BUTTONS ────────────────────────────────────── */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;
+  gap:.4rem;border:none;border-radius:50px;
+  font-family:'Nunito',sans-serif;font-weight:800;
+  cursor:none;transition:all .2s var(--ease-spring);
+  white-space:nowrap;position:relative;overflow:hidden;
+}
+.btn::after{
+  content:'';position:absolute;inset:0;border-radius:50px;
+  background:rgba(255,255,255,.25);opacity:0;transition:opacity .2s;
+}
+.btn:hover::after{opacity:1;}
+.btn:hover{translate:0 -2px;scale:1.04;}
+.btn:active{scale:.97;}
+
+.btn-rose{
+  background:linear-gradient(135deg,var(--rose),#FF85B3);
+  color:#fff;font-size:clamp(.85rem,2.5vw,1rem);
+  padding:.8rem clamp(1.2rem,4vw,2rem);
+  box-shadow:0 6px 20px rgba(255,45,107,.35);
+}
+.btn-ghost{
+  background:transparent;
+  border:2px solid rgba(122,69,96,.18);
+  color:var(--mid);
+  font-size:clamp(.8rem,2.2vw,.95rem);
+  padding:.75rem clamp(1rem,3vw,1.6rem);
+}
+.btn-ghost:hover{border-color:var(--rose);color:var(--rose);}
+.btn-peach{
+  background:linear-gradient(135deg,var(--peach),#FF9F55);
+  color:var(--dark);font-size:clamp(.85rem,2.5vw,1rem);
+  padding:.8rem clamp(1.2rem,4vw,2rem);
+  box-shadow:0 6px 20px rgba(255,200,140,.5);
+}
+
+/* ─── CARD BASE ──────────────────────────────────── */
+.card{
+  background:#fff;border-radius:22px;
+  box-shadow:0 4px 30px rgba(255,107,157,.1);
+  padding:clamp(1.2rem,4vw,2rem);
+}
+
+/* ═══════════════════════════════════════════════════
+   PAGE 0 — DOOR
+═══════════════════════════════════════════════════ */
+#p0{background:linear-gradient(140deg,#FFE0EC,#E8DCFF 60%,#C9F5E6);}
+
+/* ambient blobs */
+.blob{position:absolute;border-radius:50%;filter:blur(60px);opacity:.35;pointer-events:none;animation:blobDrift ease-in-out infinite;}
+@keyframes blobDrift{0%,100%{translate:0 0;scale:1;}50%{translate:20px -25px;scale:1.1;}}
+
+.door-scene{
+  position:relative;
+  width:min(280px,80vw);
+  height:min(360px,62vh);
+  perspective:900px;
+  cursor:none;
+}
+.door-panel{
+  width:100%;height:100%;
+  border-radius:clamp(60px,20vw,100px) clamp(60px,20vw,100px) 16px 16px;
+  background:linear-gradient(160deg,rgba(255,255,255,.92),rgba(255,255,255,.65));
+  border:2.5px solid rgba(255,255,255,.85);
+  display:flex;flex-direction:column;
+  align-items:center;justify-content:center;
+  gap:.7rem;
+  box-shadow:0 24px 70px rgba(255,45,107,.2),inset 0 0 40px rgba(255,255,255,.6);
+  backdrop-filter:blur(16px);
+  transform-origin:left center;
+  transition:transform .9s cubic-bezier(.23,1,.32,1),box-shadow .5s;
+  will-change:transform;
+}
+.door-panel.open{transform:rotateY(-78deg);}
+.door-emoji{font-size:clamp(2.8rem,10vw,4rem);animation:dbeat 1.5s ease-in-out infinite;}
+@keyframes dbeat{0%,100%{scale:1;}50%{scale:1.18;}}
+.door-heading{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1.2rem,4vw,1.7rem);
+  color:var(--rose);font-style:italic;text-align:center;
+}
+.door-note{font-size:clamp(.78rem,2.5vw,.9rem);color:var(--mid);font-weight:600;text-align:center;}
+
+/* ═══════════════════════════════════════════════════
+   PAGE 1 — QUIZ
+═══════════════════════════════════════════════════ */
+#p1{background:linear-gradient(145deg,#FFF0F8,#F5F0FF);}
+.quiz-inner{width:100%;max-width:540px;}
+
+.qcard{
+  margin-bottom:1rem;border-radius:18px;
+  background:#fff;padding:clamp(1rem,3.5vw,1.6rem);
+  box-shadow:0 2px 16px rgba(255,107,157,.09);
+  border:2px solid transparent;
+  transition:border-color .4s,box-shadow .4s;
+}
+.qcard.answered{border-color:var(--lavender);box-shadow:0 4px 20px rgba(212,187,255,.18);}
+.q-text{font-size:clamp(.88rem,2.8vw,1rem);font-weight:700;margin-bottom:.9rem;line-height:1.5;}
+.q-opts{display:flex;flex-direction:column;gap:.55rem;}
+.q-opt{
+  background:var(--cream);
+  border:1.5px solid rgba(212,187,255,.35);
+  border-radius:12px;
+  padding:clamp(.6rem,2vw,.8rem) clamp(.9rem,3vw,1.1rem);
+  cursor:none;font-family:'Nunito',sans-serif;
+  font-size:clamp(.82rem,2.5vw,.93rem);font-weight:600;
+  text-align:left;color:var(--dark);
+  transition:all .2s var(--ease-spring);
+}
+.q-opt:not(:disabled):hover{border-color:var(--pink);background:#FFF0F8;translate:4px 0;}
+.q-opt.correct{background:linear-gradient(135deg,#C8FFE6,#DFFFED);border-color:#5ECC9D;color:#1A5C3A;}
+.q-opt.wrong{background:linear-gradient(135deg,#FFD5DC,#FFE6EA);border-color:var(--rose);color:#8B1A30;}
+.q-fb{font-size:clamp(.78rem,2.3vw,.88rem);font-weight:700;color:var(--mid);margin-top:.6rem;min-height:1.1em;animation:fbSlide .3s var(--ease-out);}
+@keyframes fbSlide{from{opacity:0;translate:-8px 0;}to{opacity:1;translate:0 0;}}
+
+.quiz-result{
+  background:linear-gradient(135deg,var(--rose),var(--lavender));
+  color:#fff;border-radius:16px;padding:1.2rem;
+  text-align:center;
+  font-family:'Playfair Display',serif;font-style:italic;
+  font-size:clamp(.95rem,3vw,1.1rem);
+  display:none;margin-top:.8rem;
+  animation:popUp .4s var(--ease-spring);
+}
+@keyframes popUp{from{scale:.8;opacity:0;}70%{scale:1.04;}to{scale:1;opacity:1;}}
+
+/* ═══════════════════════════════════════════════════
+   PAGE 2 — COMPLIMENT MACHINE
+═══════════════════════════════════════════════════ */
+#p2{background:linear-gradient(145deg,#FFF5F8,#F2EEFF);}
+.spin-inner{width:100%;max-width:500px;}
+.slot-box{
+  border-radius:24px;padding:clamp(1.4rem,4vw,2rem);
+  background:#fff;
+  box-shadow:0 8px 40px rgba(255,107,157,.12);
+  border:2px solid var(--blush);
+}
+.slot-window{
+  height:clamp(74px,18vw,90px);overflow:hidden;
+  border-radius:14px;
+  background:linear-gradient(135deg,#FFF0F8,#F5F0FF);
+  border:2px solid var(--lavender);
+  display:flex;align-items:center;justify-content:center;
+  margin-bottom:1.2rem;position:relative;
+}
+.slot-window::before,.slot-window::after{
+  content:'';position:absolute;left:0;right:0;height:22px;z-index:2;
+}
+.slot-window::before{top:0;background:linear-gradient(to bottom,#FFF0F8,transparent);}
+.slot-window::after{bottom:0;background:linear-gradient(to top,#F5F0FF,transparent);}
+#slotTxt{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(.95rem,3vw,1.3rem);
+  font-style:italic;color:var(--dark);
+  padding:.8rem 1.2rem;text-align:center;
+  line-height:1.4;position:relative;z-index:1;
+}
+#slotTxt.roll{animation:slotRoll .42s var(--ease-out);}
+@keyframes slotRoll{0%{translate:0 -70px;opacity:0;}65%{translate:0 5px;}100%{translate:0 0;opacity:1;}}
+.spin-row{display:flex;gap:.8rem;justify-content:center;flex-wrap:wrap;}
+.spin-emoji{font-size:clamp(1.5rem,5vw,2rem);text-align:center;display:block;margin-bottom:.7rem;transition:all .3s var(--ease-spring);}
+.spin-label{text-align:center;font-size:clamp(.75rem,2.2vw,.85rem);color:var(--mid);font-weight:700;margin-top:1rem;}
+
+/* ═══════════════════════════════════════════════════
+   PAGE 3 — JOKES
+═══════════════════════════════════════════════════ */
+#p3{background:linear-gradient(145deg,#FFFAF0,#FFF0F8);}
+.joke-inner{width:100%;max-width:520px;}
+.joke-box{
+  border-radius:24px;padding:clamp(1.4rem,4.5vw,2.2rem);
+  background:#fff;
+  box-shadow:0 8px 40px rgba(255,179,100,.13);
+  border:2px solid var(--peach);
+  position:relative;overflow:hidden;
+}
+.joke-box::before{content:'😂';position:absolute;right:-8px;bottom:-8px;font-size:5rem;opacity:.06;pointer-events:none;}
+#jSetup{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1rem,3.2vw,1.25rem);
+  font-style:italic;color:var(--dark);
+  min-height:clamp(48px,12vw,64px);
+  margin-bottom:.8rem;line-height:1.5;
+  transition:opacity .3s;
+}
+#jPunch{
+  font-size:clamp(.92rem,2.8vw,1.05rem);font-weight:800;
+  color:var(--rose);min-height:30px;
+  opacity:0;transition:opacity .45s var(--ease-out);
+}
+#jPunch.show{opacity:1;}
+.joke-btns{display:flex;gap:.7rem;justify-content:center;margin-top:1.5rem;flex-wrap:wrap;}
+
+/* laugh meter */
+.laugh-meter{margin-top:1.4rem;}
+.laugh-lbl{font-size:.72rem;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:var(--mid);margin-bottom:.4rem;text-align:center;}
+.laugh-track{height:7px;background:rgba(255,107,157,.12);border-radius:4px;overflow:hidden;}
+#laughFill{height:100%;background:linear-gradient(90deg,var(--peach),var(--rose));border-radius:4px;width:0;transition:width .8s var(--ease-out);}
+#laughEmoji{font-size:1.4rem;text-align:center;margin-top:.4rem;min-height:1.6rem;}
+
+/* ═══════════════════════════════════════════════════
+   PAGE 4 — MOOD
+═══════════════════════════════════════════════════ */
+#p4{background:linear-gradient(145deg,#F5F0FF,#FFF0F8);}
+.mood-inner{width:100%;max-width:580px;}
+.mood-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:clamp(.6rem,2.5vw,1rem);
+  margin-bottom:1.2rem;
+}
+.mcard{
+  background:#fff;border-radius:18px;
+  padding:clamp(.9rem,3vw,1.3rem) .7rem;
+  text-align:center;border:2px solid transparent;
+  cursor:none;
+  box-shadow:0 2px 12px rgba(0,0,0,.05);
+  transition:all .25s var(--ease-spring);
+}
+.mcard:hover{translate:0 -6px;border-color:var(--pink);box-shadow:0 14px 30px rgba(255,107,157,.2);}
+.mcard.sel{border-color:var(--rose);background:linear-gradient(135deg,#FFF0F8,#F5F0FF);}
+.me{font-size:clamp(1.6rem,6vw,2.2rem);display:block;margin-bottom:.35rem;transition:transform .25s var(--ease-spring);}
+.mcard:hover .me,.mcard.sel .me{transform:scale(1.3) rotate(-8deg);}
+.ml{font-size:clamp(.68rem,2vw,.8rem);font-weight:700;color:var(--mid);}
+#moodOut{
+  background:#fff;border-radius:18px;padding:clamp(1rem,3.5vw,1.5rem);
+  border:2px solid var(--lavender);
+  font-size:clamp(.85rem,2.5vw,.98rem);line-height:1.8;color:var(--dark);
+  display:none;animation:popUp .4s var(--ease-spring);
+  box-shadow:0 4px 20px rgba(212,187,255,.18);
+}
+
+/* ═══════════════════════════════════════════════════
+   PAGE 5 — REASONS
+═══════════════════════════════════════════════════ */
+#p5{background:linear-gradient(145deg,#FFF8F5,#F5F0FF);}
+.rea-inner{width:100%;max-width:700px;padding-bottom:1rem;}
+.rea-grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(min(195px,42vw),1fr));
+  gap:clamp(.8rem,2.5vw,1.2rem);
+  margin-bottom:1.5rem;
+}
+.rcard{
+  background:#fff;border-radius:20px;
+  padding:clamp(1.1rem,3.5vw,1.6rem);
+  box-shadow:0 4px 24px rgba(255,107,157,.09);
+  position:relative;overflow:hidden;
+  transition:translate .3s var(--ease-spring),box-shadow .3s;
+  opacity:0;translate:0 30px;
+}
+.rcard.vis{opacity:1;translate:0 0;}
+.rcard:hover{translate:0 -6px;box-shadow:0 16px 40px rgba(255,107,157,.18);}
+.rcard::after{
+  content:'';position:absolute;bottom:-22px;right:-22px;
+  width:70px;height:70px;border-radius:50%;
+  background:var(--ac,var(--blush));opacity:.13;
+}
+.rnum{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,6vw,2.6rem);font-weight:700;
+  color:var(--ac,var(--blush));line-height:1;margin-bottom:.35rem;
+}
+.rcard h3{font-size:clamp(.85rem,2.5vw,.95rem);font-weight:800;margin-bottom:.25rem;}
+.rcard p{font-size:clamp(.78rem,2.2vw,.88rem);color:var(--mid);line-height:1.7;}
+
+/* ═══════════════════════════════════════════════════
+   PAGE 6 — HUG
+═══════════════════════════════════════════════════ */
+#p6{background:linear-gradient(145deg,#FFF0F8,#F0F5FF);}
+.hug-inner{width:100%;max-width:420px;text-align:center;}
+.hug-btn{
+  width:clamp(140px,38vw,180px);
+  height:clamp(140px,38vw,180px);
+  border-radius:50%;
+  background:linear-gradient(135deg,var(--pink),var(--lavender));
+  border:none;cursor:none;
+  display:flex;align-items:center;justify-content:center;
+  font-size:clamp(3.5rem,12vw,5rem);
+  margin:0 auto clamp(1.2rem,4vw,2rem);
+  box-shadow:0 12px 40px rgba(255,107,157,.3);
+  transition:all .3s var(--ease-spring);
+  will-change:transform;
+}
+.hug-btn:hover{
+  scale:1.1;
+  box-shadow:0 0 0 18px rgba(255,107,157,.1),0 0 0 36px rgba(255,107,157,.05),0 12px 40px rgba(255,107,157,.3);
+}
+.hug-btn.pop{animation:hugPop .55s var(--ease-spring);}
+@keyframes hugPop{0%{scale:1;}30%{scale:1.32;}65%{scale:.93;}100%{scale:1;}}
+.hug-msg{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(1rem,3.5vw,1.3rem);font-style:italic;color:var(--mid);
+  min-height:clamp(40px,10vw,52px);
+  transition:all .4s var(--ease-out);
+}
+.hug-ct{margin-top:.6rem;font-size:clamp(.75rem,2.2vw,.85rem);color:var(--blush);font-weight:700;min-height:1.1em;}
+
+/* ═══════════════════════════════════════════════════
+   PAGE 7 — LETTER
+═══════════════════════════════════════════════════ */
+#p7{background:linear-gradient(145deg,#FFFAF0,#FFF0F8);}
+.letter-inner{width:100%;max-width:560px;padding-bottom:1rem;}
+.env-icon{
+  font-size:clamp(3.5rem,12vw,5rem);text-align:center;display:block;
+  cursor:none;
+  filter:drop-shadow(0 8px 18px rgba(255,179,100,.4));
+  animation:envFloat 3s ease-in-out infinite;
+  transition:scale .3s var(--ease-spring);
+}
+.env-icon:hover{scale:1.12;}
+@keyframes envFloat{0%,100%{translate:0 0;rotate:-3deg;}50%{translate:0 -10px;rotate:3deg;}}
+.letter-paper{
+  background:linear-gradient(160deg,#FFF8F0,#FFF2E8);
+  border-radius:4px 18px 18px 4px;
+  padding:clamp(1.5rem,4.5vw,2.5rem);
+  box-shadow:0 8px 40px rgba(255,107,157,.12),-5px 0 0 var(--rose);
+  display:none;
+  animation:unfold .5s var(--ease-out);
+  position:relative;
+}
+@keyframes unfold{from{scale:1 .05;opacity:0;}to{scale:1;opacity:1;}}
+.letter-paper::before{
+  content:'';position:absolute;inset:1.5rem;
+  background:repeating-linear-gradient(transparent,transparent 31px,rgba(212,187,255,.18) 31px,rgba(212,187,255,.18) 32px);
+  pointer-events:none;border-radius:4px;
+}
+.l-date{font-family:'Playfair Display',serif;font-style:italic;color:rgba(42,16,32,.35);font-size:.82rem;text-align:right;margin-bottom:1.2rem;position:relative;z-index:1;}
+.l-body{font-size:clamp(.85rem,2.5vw,.95rem);line-height:2;color:var(--dark);position:relative;z-index:1;}
+.l-body .sal{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,3.5vw,1.3rem);color:var(--rose);display:block;margin-bottom:.8rem;font-style:italic;}
+.l-body .sign{font-family:'Playfair Display',serif;font-size:clamp(1.1rem,3.5vw,1.35rem);color:var(--rose);display:block;margin-top:1.2rem;font-style:italic;}
+.l-body p{margin-bottom:.8rem;}
+.l-body em{color:var(--rose);font-style:normal;font-weight:700;}
+
+/* ═══════════════════════════════════════════════════
+   PAGE 8 — FINAL
+═══════════════════════════════════════════════════ */
+#p8{
+  background:linear-gradient(135deg,#FF6B9D,#D4BBFF 55%,#AEFFD8);
+  overflow:hidden;
+}
+#p8::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(160deg,rgba(255,255,255,.28),rgba(255,255,255,.04));
+  pointer-events:none;
+}
+.fin-title{
+  font-family:'Playfair Display',serif;
+  font-size:clamp(2rem,9vw,5.5rem);
+  color:#fff;font-weight:700;text-align:center;
+  text-shadow:0 4px 30px rgba(0,0,0,.12);
+  position:relative;z-index:1;line-height:1.15;
+  animation:finPop 1s var(--ease-spring) .3s both;
+}
+@keyframes finPop{from{scale:.5;opacity:0;}70%{scale:1.07;}to{scale:1;opacity:1;}}
+.fin-sub{
+  font-size:clamp(.95rem,3vw,1.2rem);color:rgba(255,255,255,.9);
+  margin-top:.9rem;font-style:italic;text-align:center;
+  font-family:'Playfair Display',serif;
+  position:relative;z-index:1;
+  animation:fadeUp .8s var(--ease-out) .9s both;
+}
+@keyframes fadeUp{from{opacity:0;translate:0 20px;}to{opacity:1;translate:0 0;}}
+.fin-hearts{font-size:clamp(1.5rem,5vw,2rem);margin-top:1.2rem;letter-spacing:.3em;position:relative;z-index:1;animation:fadeUp .8s var(--ease-out) 1.2s both;}
+.fin-btn{
+  margin-top:2rem;position:relative;z-index:1;
+  background:rgba(255,255,255,.95);border:none;
+  border-radius:50px;color:var(--rose);
+  font-family:'Nunito',sans-serif;font-weight:900;
+  font-size:clamp(.9rem,3vw,1.1rem);
+  padding:clamp(.8rem,3vw,1rem) clamp(1.5rem,5vw,2.8rem);
+  cursor:none;
+  box-shadow:0 8px 30px rgba(0,0,0,.15);
+  transition:all .2s var(--ease-spring);
+  animation:fadeUp .8s var(--ease-out) 1.5s both;
+}
+.fin-btn:hover{translate:0 -3px;scale:1.05;}
+.fin-btn:active{scale:.97;}
+.fstar{position:absolute;border-radius:50%;background:#fff;pointer-events:none;animation:twinkle ease-in-out infinite;}
+@keyframes twinkle{0%,100%{opacity:.1;scale:1;}50%{opacity:.65;scale:1.5;}}
+
+/* ─── REVEAL ANIMATION HELPER ───────────────────── */
+.rev{opacity:0;translate:0 22px;transition:opacity .55s var(--ease-out),translate .55s var(--ease-out);}
+.rev.vis{opacity:1;translate:0 0;}
+
+/* ─── SCROLLBAR ──────────────────────────────────── */
+::-webkit-scrollbar{width:4px;}
+::-webkit-scrollbar-track{background:transparent;}
+::-webkit-scrollbar-thumb{background:var(--blush);border-radius:2px;}
+
+/* ─── RESPONSIVE OVERRIDES ───────────────────────── */
+@media(max-width:480px){
+  .mood-grid{grid-template-columns:repeat(2,1fr);}
+  .rea-grid{grid-template-columns:1fr 1fr;}
+}
+@media(max-width:360px){
+  .rea-grid{grid-template-columns:1fr;}
+}
+@media(max-height:620px){
+  .page{padding-top:.8rem;padding-bottom:3.5rem;}
+  .p-sub{margin-bottom:.8rem;}
+}
+</style>
+</head>
+<body>
+
+<!-- CANVAS & OVERLAYS -->
+<canvas id="cvc"></canvas>
+<div id="cur"></div>
+<div id="cur2"></div>
+<div id="prog"></div>
+<div id="navdots"></div>
+<div id="pto"></div>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="load-heart">💖</div>
+  <div class="load-txt">Preparing something special<br>for Muskan...</div>
+</div>
+
+<!-- ═══ PAGE 0 — DOOR ═══ -->
+<div class="page active" id="p0">
+  <div class="blob" style="width:320px;height:320px;background:#FF6B9D;top:-100px;right:-80px;animation-duration:7s;"></div>
+  <div class="blob" style="width:240px;height:240px;background:#D4BBFF;bottom:-60px;left:-60px;animation-duration:9s;animation-delay:-3s;"></div>
+  <div class="blob" style="width:180px;height:180px;background:#AEFFD8;bottom:60px;right:30px;animation-duration:8s;animation-delay:-5s;"></div>
+
+  <div class="door-scene" onclick="openDoor()" id="doorScene">
+    <div class="door-panel" id="door">
+      <div class="door-emoji">💌</div>
+      <div class="door-heading">Hey Muskan...</div>
+      <div class="door-note">Something special is waiting 🌸</div>
+      <button class="btn btn-rose" style="margin-top:1rem;" onclick="openDoor()">Open it 💕</button>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 1 — QUIZ ═══ -->
+<div class="page scroll-y" id="p1">
+  <div class="quiz-inner">
+    <p class="p-label rev">Round 1</p>
+    <h2 class="p-title rev">Let's see how well <em>he knows you</em> 😏</h2>
+    <p class="p-sub rev">Answer honestly, Muskan — no cheating! 👀</p>
+
+    <div class="qcard" id="q0">
+      <div class="q-text">1. What's Muskan's biggest superpower?</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(0,0,false)">Being dramatically cute 😂</button>
+        <button class="q-opt" onclick="ans(0,1,true)">Her smile that fixes everything 🌸</button>
+        <button class="q-opt" onclick="ans(0,2,false)">Sleeping literally anywhere 😴</button>
+      </div>
+      <div class="q-fb" id="qf0"></div>
+    </div>
+
+    <div class="qcard" id="q1">
+      <div class="q-text">2. When Muskan is upset, the best thing to do is...</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(1,0,false)">Give her space immediately</button>
+        <button class="q-opt" onclick="ans(1,1,false)">Explain logic like a robot 🙄</button>
+        <button class="q-opt" onclick="ans(1,2,true)">Just hug her and say nothing 🤗</button>
+      </div>
+      <div class="q-fb" id="qf1"></div>
+    </div>
+
+    <div class="qcard" id="q2">
+      <div class="q-text">3. Complete this: Muskan is basically...</div>
+      <div class="q-opts">
+        <button class="q-opt" onclick="ans(2,0,false)">A walking mood ring 🌈</button>
+        <button class="q-opt" onclick="ans(2,1,true)">The reason someone's whole world is brighter 💖</button>
+        <button class="q-opt" onclick="ans(2,2,false)">A professional overthinker 😅</button>
+      </div>
+      <div class="q-fb" id="qf2"></div>
+    </div>
+
+    <div class="quiz-result" id="quizRes"></div>
+    <button class="btn btn-rose" id="quizNext" style="display:none;margin:1.2rem auto 0;display:none;" onclick="nav(2)">Next: Compliments! ✨</button>
+  </div>
+</div>
+
+<!-- ═══ PAGE 2 — COMPLIMENT ═══ -->
+<div class="page" id="p2">
+  <div class="spin-inner">
+    <p class="p-label">For Muskan</p>
+    <h2 class="p-title">Your <em>Compliment Machine</em> ✨</h2>
+    <p class="p-sub">Because you deserve to hear it every single day 💕</p>
+    <div class="slot-box">
+      <span class="spin-emoji" id="spinEmoji">✨</span>
+      <div class="slot-window">
+        <div id="slotTxt">"You are genuinely one of a kind, Muskan."</div>
+      </div>
+      <div class="spin-row">
+        <button class="btn btn-rose" onclick="spin()">✨ Spin!</button>
+        <button class="btn btn-ghost" onclick="nav(3)">Next →</button>
+      </div>
+      <div class="spin-label" id="spinLabel">Tap as many times as you want 💖</div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 3 — JOKES ═══ -->
+<div class="page" id="p3">
+  <div class="joke-inner">
+    <p class="p-label">Warning ⚠️</p>
+    <h2 class="p-title">Cheesy Jokes <em>Just for You</em> 😂</h2>
+    <p class="p-sub">May cause uncontrollable smiling 🌸</p>
+    <div class="joke-box">
+      <div id="jSetup">Ready for a joke? Hit the button! 🎭</div>
+      <div id="jPunch"></div>
+      <div class="joke-btns">
+        <button class="btn btn-peach" onclick="getJoke()">New joke 😂</button>
+        <button class="btn btn-ghost" onclick="showPunch()">Punchline 👀</button>
+        <button class="btn btn-ghost" onclick="nav(4)">Next →</button>
+      </div>
+      <div class="laugh-meter">
+        <div class="laugh-lbl">Muskan's laugh meter</div>
+        <div class="laugh-track"><div id="laughFill"></div></div>
+        <div id="laughEmoji"></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══ PAGE 4 — MOOD ═══ -->
+<div class="page" id="p4">
+  <div class="mood-inner">
+    <p class="p-label">Check in 💕</p>
+    <h2 class="p-title">How are you feeling <em>right now?</em></h2>
+    <p class="p-sub">Pick your vibe — I've got something for every mood</p>
+    <div class="mood-grid">
+      <div class="mcard" onclick="pickMood('sad',this)"><span class="me">🥺</span><span class="ml">A little sad</span></div>
+      <div class="mcard" onclick="pickMood('tired',this)"><span class="me">😴</span><span class="ml">Tired</span></div>
+      <div class="mcard" onclick="pickMood('bored',this)"><span class="me">😑</span><span class="ml">Bored</span></div>
+      <div class="mcard" onclick="pickMood('happy',this)"><span class="me">😊</span><span class="ml">Happy</span></div>
+      <div class="mcard" onclick="pickMood('love',this)"><span class="me">🥰</span><span class="ml">In love</span></div>
+      <div class="mcard" onclick="pickMood('stress',this)"><span class="me">😤</span><span class="ml">Stressed</span></div>
+    </div>
+    <div id="moodOut"></div>
+    <button class="btn btn-rose" style="margin:1.2rem auto 0;display:block;" onclick="nav(5)">Next: Why you're amazing 💖</button>
+  </div>
+</div>
+
+<!-- ═══ PAGE 5 — REASONS ═══ -->
+<div class="page scroll-y" id="p5">
+  <div class="rea-inner">
+    <p class="p-label rev">Written from the heart</p>
+    <h2 class="p-title rev">Why Muskan is <em>amazing</em></h2>
+    <p class="p-sub rev">Every single word is true 💖</p>
+    <div class="rea-grid">
+      <div class="rcard" style="--ac:#FF6B9D">
+    <div class="rnum">01</div>
+    <h3>Her Smile</h3>
+    <p>Teri muskurahat sirf hothon tak nahi rehti Meri rooh tak utar jaati hai Aur us pal lagta hai jaise meri poori duniya muskura uthi ho</p>
+</div>
+
+<div class="rcard" style="--ac:#D4BBFF">
+    <div class="rnum">02</div>
+    <h3>Her Heart</h3>
+    <p>Tera dil itna khoobsurat hai ki usme mohabbat bhi dua bankar rehti hai Shayad isi liye Rab ne tujhe sabse alag banaya hai</p>
+</div>
+
+<div class="rcard" style="--ac:#AEFFD8">
+    <div class="rnum">03</div>
+    <h3>Her Strength</h3>
+    <p>Tum har mushkil ke baad bhi muskura leti ho Shayad isi liye meri nazar me tum sirf khoobsurat nahi Sabse mazboot bhi ho</p>
+</div>
+
+<div class="rcard" style="--ac:#FFB3CC">
+    <div class="rnum">04</div>
+    <h3>Her Laugh</h3>
+    <p>Teri hasi sun kar lagta hai jaise waqt thoda sa theher gaya ho Aur meri har udaasi ne chupke se alvida keh diya ho</p>
+</div>
+
+<div class="rcard" style="--ac:#FFCBA4">
+    <div class="rnum">05</div>
+    <h3>Her Kindness</h3>
+    <p>Teri meherbaniyon ka hisaab lafzon me nahi ho sakta Tum bina kahe bhi logo ki zindagi me roshni bhar deti ho</p>
+</div>
+
+<div class="rcard" style="--ac:#B3E5FC">
+    <div class="rnum">06</div>
+    <h3>Just Being Her</h3>
+    <p>Mujhe tumhari koi perfect version nahi chahiye Mujhe bas tum chahiye Kyuki meri nazar me tum jaisi ho waise hi meri sabse khoobsurat duniya ho</p>
+</div>
+    </div>
+    <button class="btn btn-rose" style="margin:1.5rem auto 0;display:block;" onclick="nav(6)">Next: Virtual Hug 🤗</button>
+  </div>
+</div>
+
+<!-- ═══ PAGE 6 — HUG ═══ -->
+<div class="page" id="p6">
+  <div class="hug-inner">
+    <p class="p-label">Delivered with love</p>
+    <h2 class="p-title">Muskan, <em>need a hug?</em></h2>
+    <p class="p-sub">Tap as many times as you need 🌸</p>
+    <button class="hug-btn" id="hugBtn" onclick="doHug()">🤗</button>
+    <p class="hug-msg" id="hugMsg">This one's from Navneet 💕</p>
+    <p class="hug-ct" id="hugCt"></p>
+    <button class="btn btn-rose" style="margin:1.5rem auto 0;display:block;" onclick="nav(7)">Next: A letter for you 💌</button>
+  </div>
+</div>
+
+<!-- ═══ PAGE 7 — LETTER ═══ -->
+<div class="page scroll-y" id="p7">
+  <div class="letter-inner">
+    <p class="p-label rev">From Navneet</p>
+    <h2 class="p-title rev">A Letter <em>for Muskan</em></h2>
+    <p class="p-sub rev">Written with all the love 💕</p>
+    <span class="env-icon rev" onclick="openLetter()" id="envIcon">💌</span>
+    <button class="btn btn-peach rev" style="display:block;margin:.9rem auto 1.5rem;" onclick="openLetter()">Open your letter ✨</button>
+    <div class="letter-paper" id="letterPaper">
+      <div class="l-date">From Navneet, always 💕</div>
+      <div class="l-body">
+        <span class="sal">Shivaya Ki Mummy,</span>
+        <p>Maine ye page sirf isliye banaya hai taki jab bhi tum kabhi ye socho ki shayad mera pyaar kam hai, tum bas isse padh lena. Kyuki kuch ehsaas lafzon se nahi, sirf dil se samjhe jaa sakte hai.</p>
+
+<p>Pata hai sabse ajeeb baat kya hai <em>har baar mujhe lagta hai ki me tumse kam pyaar karta hu</em>. Aur phir mera dil kehta hai nahi... usse aur pyaar kar, aur uske kareeb aa, aur usse itna chah ki uski har muskurahat me tera naam bas jaaye.</p>
+
+<p>Mujhe na duniya chahiye, na kisi aur khushi ki talaash hai. <em>Bas tera haath meri ungliyon me rahe</em>, aur tera pyaar meri har saans ke saath rahe. Mere liye itna hi kaafi hai.</p>
+
+<p>Shayad kabhi kabhi tujhe lagta hoga ki me itna pyaar nahi karta, ya me apni feelings utni dikhata nahi. Par sach ye hai ki <em>me jitna tumhe mehsoos karta hu, utna lafzon me kabhi bayaan hi nahi kar paata.</em></p>
+
+<p>Har din uthkar mujhe bas ek hi baat mehsoos hoti hai... Aaj bhi tujhe aur pyaar karna baaki hai. Aaj bhi tujhe aur hasaana baaki hai. Aaj bhi tujhe aur apna banana baaki hai. Kyuki mera dil har roz tumhare liye ek nayi mohabbat lekar uthta hai.</p>
+
+<p>Meri mohabbat ki koi inteha nahi hai. Har subah tera naam meri muskurahat ban jaata hai, aur har raat tera khayal meri neend ban jaata hai. <em>Jitna waqt guzarta hai, utna hi me tumse aur gehra pyaar karne lagta hu.</em></p>
+
+<p style="font-size:1.05rem;"><em>Agar kabhi tujhe lage ki me tumse kam pyaar karta hu... toh bas meri aankhon me dekh lena. Waha tujhe meri har baat se zyada meri mohabbat nazar aayegi.</em></p>
+
+<p>Har janam me meri pehli dua, meri aakhri khushi aur meri sabse khoobsurat mohabbat... <strong>sirf tum ho Muskan.</strong> ❤️</p>
+        <span class="sign">Always yours,<br>Navneet 💖</span>
+      </div>
+    </div>
+    <button class="btn btn-rose" style="margin:1.5rem auto 0;display:block;" onclick="nav(8)">Finish 💖</button>
+  </div>
+</div>
+
+<!-- ═══ PAGE 8 — FINAL ═══ -->
+<div class="page" id="p8">
+  <h2 class="fin-title">Muskan,<br>you are loved. 💖</h2>
+  <p class="fin-sub">Always. Without condition. Without limit. — Navneet</p>
+  <div class="fin-hearts">💕 💖 💝 💗 💓</div>
+  <button class="fin-btn" onclick="bigConf()">🎉 Send love to Navneet</button>
+</div>
+
+<script>
+/* ─── SMOOTH CURSOR ─────────────────────────────── */
+const cur=document.getElementById('cur');
+const cur2=document.getElementById('cur2');
+let mx=0,my=0,cx=0,cy=0;
+
+document.addEventListener('mousemove',e=>{
+  mx=e.clientX; my=e.clientY;
+  cur.style.left=mx+'px'; cur.style.top=my+'px';
+});
+
+// Lagging second ring
+function lerp(a,b,t){return a+(b-a)*t;}
+(function tick(){
+  cx=lerp(cx,mx,.14); cy=lerp(cy,my,.14);
+  cur2.style.left=cx+'px'; cur2.style.top=cy+'px';
+  requestAnimationFrame(tick);
+})();
+
+// Cursor grow on hover
+document.addEventListener('mouseover',e=>{
+  if(e.target.matches('button,.mcard,.rcard,.q-opt,.door-scene')){
+    cur.style.width='22px'; cur.style.height='22px';
+  }
+});
+document.addEventListener('mouseout',e=>{
+  if(e.target.matches('button,.mcard,.rcard,.q-opt,.door-scene')){
+    cur.style.width='14px'; cur.style.height='14px';
+  }
+});
+
+/* ─── HEART POPS ON CLICK ───────────────────────── */
+document.addEventListener('click',e=>{
+  const emojis=['❤️','💖','💕','✨','🌸','💗','⭐'];
+  const h=document.createElement('div');
+  h.className='hpop';
+  h.style.cssText=`left:${e.clientX}px;top:${e.clientY}px;font-size:${Math.random()*8+12}px;`;
+  h.textContent=emojis[Math.floor(Math.random()*emojis.length)];
+  document.body.appendChild(h);
+  setTimeout(()=>h.remove(),950);
+});
+
+/* ─── LOADER ────────────────────────────────────── */
+window.addEventListener('load',()=>{
+  setTimeout(()=>{
+    document.getElementById('loader').classList.add('out');
+    setTimeout(()=>document.getElementById('loader').remove(),900);
+  },1800);
+});
+
+/* ─── PAGES ─────────────────────────────────────── */
+const PAGES=['p0','p1','p2','p3','p4','p5','p6','p7','p8'];
+let cur_p=0;
+const prog=document.getElementById('prog');
+const dotsEl=document.getElementById('navdots');
+
+// Build dots (pages 1–8, skip door)
+for(let i=1;i<PAGES.length;i++){
+  const d=document.createElement('div');
+  d.className='ndot'; d.id='dt'+i;
+  dotsEl.appendChild(d);
+}
+
+function updateUI(idx){
+  const pct=(idx/(PAGES.length-1))*100;
+  prog.style.width=pct+'%';
+  dotsEl.style.display=idx===0?'none':'flex';
+  for(let i=1;i<PAGES.length;i++){
+    const d=document.getElementById('dt'+i);
+    if(!d) continue;
+    d.className='ndot'+(i===idx?' on':i<idx?' done':'');
+  }
+}
+
+const pto=document.getElementById('pto');
+function nav(idx){
+  if(idx===cur_p) return;
+  pto.classList.add('in');
+  const outEl=document.getElementById(PAGES[cur_p]);
+  outEl.classList.add('out');
+  setTimeout(()=>{
+    document.querySelectorAll('.page').forEach(p=>{
+      p.classList.remove('active','out');
+      p.style.zIndex='1';
+    });
+    const t=document.getElementById(PAGES[idx]);
+    t.classList.add('active');
+    t.style.zIndex='10';
+    cur_p=idx; updateUI(idx);
+    t.scrollTop=0;
+    pto.classList.remove('in');
+    onEnter(idx);
+  },320);
+}
+
+function onEnter(idx){
+  // Trigger scroll reveals on the new page
+  triggerReveal(document.getElementById(PAGES[idx]));
+  if(idx===5) animateRCards();
+  if(idx===8){bigConf(); buildFinalStars();}
+}
+
+updateUI(0);
+
+/* ─── SCROLL REVEAL ─────────────────────────────── */
+function triggerReveal(container){
+  if(!container) return;
+  const els=container.querySelectorAll('.rev');
+  els.forEach((el,i)=>{
+    setTimeout(()=>el.classList.add('vis'),i*90);
+  });
+}
+// Also on scroll for scroll-y pages
+document.addEventListener('scroll',()=>{},true);
+const ro=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis');ro.unobserve(e.target);}});
+},{threshold:.15,rootMargin:'0px 0px -20px 0px'});
+document.querySelectorAll('.rev').forEach(el=>ro.observe(el));
+
+/* ─── DOOR ──────────────────────────────────────── */
+let doorOpened=false;
+function openDoor(){
+  if(doorOpened) return;
+  doorOpened=true;
+  document.getElementById('door').classList.add('open');
+  setTimeout(()=>nav(1),950);
+}
+
+/* ─── QUIZ ──────────────────────────────────────── */
+const qFB=[
+  {y:"Yes!! Her smile is literally her superpower 😍💖",n:"Hmm — think again! Her smile fixes EVERYTHING 🌸"},
+  {y:"A hug always wins — no words needed 🤗💕",n:"Nope! Just hug her. That's it. 💕"},
+  {y:"Exactly!! Muskan makes everything brighter 💖✨",n:"Come on — she makes someone's whole world brighter 💖"},
+];
+let qAns=[false,false,false], qScore=0;
+
+function ans(qi,oi,correct){
+  if(qAns[qi]) return;
+  qAns[qi]=true;
+  const card=document.getElementById('q'+qi);
+  card.classList.add('answered');
+  const opts=card.querySelectorAll('.q-opt');
+  opts.forEach(o=>o.disabled=true);
+  if(correct){
+    opts[oi].classList.add('correct');
+  } else {
+    opts[oi].classList.add('wrong');
+    // find & highlight correct
+    opts.forEach(o=>{
+      const fn=o.getAttribute('onclick');
+      if(fn&&fn.includes('true')) o.classList.add('correct');
+    });
+  }
+  document.getElementById('qf'+qi).textContent=correct?qFB[qi].y:qFB[qi].n;
+  if(correct) qScore++;
+  checkQuiz();
+}
+
+function checkQuiz(){
+  if(!qAns.every(Boolean)) return;
+  const msgs=[
+    "0/3 😂 Someone needs to pay more attention to Muskan!",
+    "1/3 — Not bad, but  better! 😅",
+    "2/3 — Pretty good! Muskan approves 🌸",
+    "3/3 PERFECT!! Muskan is smiling so hard right now 💖✨"
+  ];
+  const r=document.getElementById('quizRes');
+  r.textContent=msgs[qScore];
+  r.style.display='block';
+  const nb=document.getElementById('quizNext');
+  nb.style.display='block';
+  nb.style.margin='1.2rem auto 0';
+  if(qScore===3) conf(120);
+}
+
+/* ─── COMPLIMENT SPINNER ────────────────────────── */
+const COMPS=[
+  '"Teri muskurahat meri har dua ka sabse khoobsurat jawab hai ❤️"',
+'"Rab ne fursat se likhi hui sabse haseen shayari ho tum 🌸"',
+'"Tum sirf khoobsurat nahi meri har khushi ki wajah ho 💖"',
+'"Teri hasi sun kar lagta hai zindagi waqai haseen hai ✨"',
+'"Jitna tumhe dekhta hu utna hi tumse aur pyaar ho jaata hai 🥹"',
+'"Tum meri har subah ki roshni aur har raat ka sukoon ho 🌙"',
+'"Teri ek muskurahat meri hazaar udaasiyon ko mita deti hai 🌼"',
+'"Tum meri dua bhi ho meri mohabbat bhi aur meri sabse khoobsurat aadat bhi ❤️"',
+'"Har bheed me bhi meri nazar sirf tumhe hi dhoondti hai 💕"',
+'"Tumhare hone se meri duniya me har rang aur gehra ho gaya hai 🎨"',
+'"Teri awaaz meri rooh ko sukoon dene wali sabse pyaari dhun hai 🎶"',
+'"Meri har shayari adhuri hai jab tak usme tumhara zikr na ho ✍️❤️"',
+'"Tum meri zindagi ka woh hissa ho jise me kabhi khona nahi chahta 🫶"',
+'"Har din lagta hai Rab ne tumhe sirf meri muskurahat ke liye banaya hai 🌹"',
+'"Agar mohabbat ka koi chehra hota toh woh bilkul tumhare jaisa hota ❤️"'
+];
+const SEMOJI=['✨','💖','🌸','💕','⭐','🥰','💫','🎀'];
+let lastSpin=-1, spinCt=0;
+
+function spin(){
+  const el=document.getElementById('slotTxt');
+  el.classList.remove('roll');
+  void el.offsetWidth;
+  let idx; do{idx=Math.floor(Math.random()*COMPS.length);}while(idx===lastSpin);
+  lastSpin=idx;
+  el.textContent=COMPS[idx];
+  el.classList.add('roll');
+  const se=document.getElementById('spinEmoji');
+  se.textContent=SEMOJI[Math.floor(Math.random()*SEMOJI.length)];
+  se.style.scale='1.4';
+  setTimeout(()=>se.style.scale='1',300);
+  spinCt++;
+  document.getElementById('spinLabel').textContent=`Muskan has been complimented ${spinCt} time${spinCt>1?'s':''} 💖`;
+  if(spinCt%5===0) conf(60);
+}
+
+/* ─── JOKES ─────────────────────────────────────── */
+const JOKES=[
+  {s:"What's my favorite hobby?",p:"Annoying you a little... then making you smile a lot 😜❤️"},
+
+{s:"Why do I smile every time my phone lights up?",p:"Because there's always a tiny hope it's you texting me 📱💕"},
+
+{s:"What's the only thing I never get bored of?",p:"Looking at your photos and falling in love all over again 🥹❤️"},
+
+{s:"Why is my heart always so busy?",p:"Because it's working 24/7 just to love you a little more every day 💖"},
+
+{s:"What's the shortest love story?",p:"Me. You. Forever. ❤️✨"},
+
+{s:"Why do I lose every argument with you?",p:"Because the moment you smile... I forget what we were talking about 😂💕"}
+];
+let curJ=null, laughPct=0;
+
+function getJoke(){
+  curJ=JOKES[Math.floor(Math.random()*JOKES.length)];
+  const setup=document.getElementById('jSetup');
+  setup.style.opacity='0';
+  setTimeout(()=>{setup.textContent=curJ.s;setup.style.opacity='1';},200);
+  const p=document.getElementById('jPunch');
+  p.textContent=''; p.classList.remove('show');
+  laughPct=Math.min(100,laughPct+18);
+  document.getElementById('laughFill').style.width=laughPct+'%';
+  const faces=['😐','🙂','😄','😂','🤣','💀'];
+  document.getElementById('laughEmoji').textContent=faces[Math.min(Math.floor(laughPct/20),5)];
+  if(laughPct>=100) conf(80);
+}
+function showPunch(){
+  if(!curJ){getJoke();return;}
+  const p=document.getElementById('jPunch');
+  p.textContent=curJ.p; p.classList.add('show');
+}
+
+/* ─── MOOD ──────────────────────────────────────── */
+const MOODS={
+  sad:[
+  "Kabhi kabhi aansu bhi mohabbat ki zubaan hote hai 🥀 Yaad rakh Muskan andheri raat ke baad hi sabse khoobsurat subah aati hai Aur me hamesha tere saath hu ❤️",
+  "Agar aaj dil udaas hai toh usse thodi der ro lene de Har dard guzar jaata hai Par meri mohabbat kabhi kam nahi hoti 🌙❤️"
+],
+
+tired:[
+  "Thak gayi ho toh thoda sa aaram kar lo Meri jaan Chaand bhi roz chamakne se pehle thodi der aaram karta hai 🌙💖",
+  "Tum sabke liye itna karti ho Kabhi apne liye bhi muskura liya karo Kyuki tumhari muskurahat meri duniya ki sabse khoobsurat roshni hai ✨"
+],
+
+bored:[
+  "Agar bore ho toh meri yaadon ki kitaab khol lena Har page par ek muskurahat aur har lafz me sirf tum milogi ❤️📖",
+  "Bore hone ka waqt hi kaha hai Jab meri har dua aur har khayal me sirf tum hi tum rehti ho 🌸💕"
+],
+
+happy:[
+  "Tumhari hasi dekhkar lagta hai jaise Rab ne meri dua qubool kar li Ho Hasti rehna kyuki tumhari muskurahat meri sabse badi khushi hai 🌼❤️",
+  "Aaj tum khush ho Bas itna hi kaafi hai Kyuki tumhari ek muskurahat meri hazaar khushiyon se bhi zyada keemti hai 💛✨"
+],
+
+love:[
+  "Har din lagta hai aaj bhi tumse aur pyaar karna baaki hai Tum meri aadat nahi meri sabse khoobsurat ibaadat ho ❤️🥹",
+  "Meri har dua me tum ho Meri har saans me tum ho Aur meri har mohabbat ka ek hi naam hai Muskan 💖🌹"
+],
+
+stress:[
+  "Sab kuch thodi der ke liye bhool jao Bas itna yaad rakho Tum akeli nahi ho Mera pyaar hamesha tumhare saath khada hai 🌿❤️",
+  "Zindagi ki mushkilein sirf waqt leti hai Tumhari muskurahat nahi Aur jab tak me hu Tumhe tootne nahi dunga 🤍✨"
+]
+};
+function pickMood(type,el){
+  document.querySelectorAll('.mcard').forEach(c=>c.classList.remove('sel'));
+  el.classList.add('sel');
+  const arr=MOODS[type];
+  const out=document.getElementById('moodOut');
+  out.innerHTML='<strong style="color:var(--rose);">For you right now:</strong><br><br>'+arr[Math.floor(Math.random()*arr.length)];
+  out.style.display='none';
+  void out.offsetWidth;
+  out.style.display='block';
+}
+
+/* ─── REASONS CARDS ─────────────────────────────── */
+function animateRCards(){
+  const cards=document.querySelectorAll('#p5 .rcard');
+  cards.forEach((c,i)=>{
+    setTimeout(()=>{
+      c.style.transition=`opacity .5s var(--ease-out) ${i*.07}s, translate .5s var(--ease-out) ${i*.07}s`;
+      c.classList.add('vis');
+    },i*80);
+  });
+}
+
+/* ─── VIRTUAL HUG ───────────────────────────────── */
+const HUGS=[
+  "Sending you the warmest hug from Navneet 🤗💕",
+  "You are so huggable, Muskan. Holding tight! 💖",
+  "Consider yourself officially hugged 🥰",
+  "This hug: 100% love, zero judgement 💗",
+  "A hug from Navneet — keep it as long as you need 🌸",
+  "Squeeze! That was a real one 💕",
+  "Hug delivered with all the love in the world 💖",
+];
+let hugCt=0;
+function doHug(){
+  const btn=document.getElementById('hugBtn');
+  btn.classList.remove('pop');
+  void btn.offsetWidth;
+  btn.classList.add('pop');
+  hugCt++;
+  document.getElementById('hugMsg').textContent=HUGS[hugCt%HUGS.length];
+  document.getElementById('hugCt').textContent=hugCt>1?`${hugCt} hugs sent to Muskan 💕`:'';
+  sprayH(btn);
+  if(hugCt===5) conf(100);
+}
+function sprayH(el){
+  const r=el.getBoundingClientRect();
+  const cx=r.left+r.width/2, cy=r.top+r.height/2;
+  const ems=['💖','💕','🌸','✨','💗'];
+  for(let i=0;i<12;i++){
+    setTimeout(()=>{
+      const h=document.createElement('div');
+      h.className='hpop';
+      h.style.cssText=`left:${cx+(Math.random()-.5)*130}px;top:${cy+(Math.random()-.5)*90}px;font-size:${Math.random()*12+10}px;`;
+      h.textContent=ems[Math.floor(Math.random()*ems.length)];
+      document.body.appendChild(h);
+      setTimeout(()=>h.remove(),950);
+    },i*50);
+  }
+}
+
+/* ─── LETTER ────────────────────────────────────── */
+function openLetter(){
+  const lp=document.getElementById('letterPaper');
+  if(lp.style.display==='block') return;
+  document.getElementById('envIcon').style.animation='none';
+  lp.style.display='block';
+  setTimeout(()=>lp.scrollIntoView({behavior:'smooth',block:'nearest'}),100);
+}
+
+/* ─── FINAL STARS ───────────────────────────────── */
+function buildFinalStars(){
+  const p=document.getElementById('p8');
+  if(p.querySelector('.fstar')) return;
+  for(let i=0;i<32;i++){
+    const s=document.createElement('div');
+    s.className='fstar';
+    const sz=Math.random()*3.5+1.5;
+    s.style.cssText=`width:${sz}px;height:${sz}px;left:${Math.random()*100}%;top:${Math.random()*100}%;animation-duration:${Math.random()*3+2.5}s;animation-delay:${Math.random()*4}s;`;
+    p.appendChild(s);
+  }
+}
+
+/* ─── CONFETTI ──────────────────────────────────── */
+const cvc=document.getElementById('cvc');
+const cctx=cvc.getContext('2d');
+let cW=window.innerWidth, cH=window.innerHeight;
+cvc.width=cW; cvc.height=cH;
+window.addEventListener('resize',()=>{cW=cvc.width=window.innerWidth;cH=cvc.height=window.innerHeight;});
+
+const COLS=['#FF6B9D','#D4BBFF','#FFB347','#FF2D6B','#AEFFD8','#FFF5A0','#B3E5FC','#FFB3CC'];
+let pieces=[],cActive=false;
+
+function conf(n=120){
+  for(let i=0;i<n;i++) pieces.push({
+    x:Math.random()*cW, y:-20-Math.random()*cH*.3,
+    w:Math.random()*10+4, h:Math.random()*5+3,
+    color:COLS[Math.floor(Math.random()*COLS.length)],
+    rot:Math.random()*Math.PI*2, rs:(Math.random()-.5)*.22,
+    vx:(Math.random()-.5)*5, vy:Math.random()*3+1.5,
+    alpha:1
+  });
+  if(!cActive){cActive=true;animC();}
+  setTimeout(()=>cActive=false,5000);
+}
+function animC(){
+  cctx.clearRect(0,0,cW,cH);
+  pieces=pieces.filter(p=>p.y<cH+20&&p.alpha>0);
+  pieces.forEach(p=>{
+    p.x+=p.vx; p.y+=p.vy; p.rot+=p.rs;
+    p.vy+=.04; // gravity
+    if(p.y>cH*.6) p.alpha=Math.max(0,p.alpha-.015);
+    cctx.save();
+    cctx.globalAlpha=p.alpha;
+    cctx.translate(p.x,p.y); cctx.rotate(p.rot);
+    cctx.fillStyle=p.color;
+    cctx.fillRect(-p.w/2,-p.h/2,p.w,p.h);
+    cctx.restore();
+  });
+  if(cActive||pieces.length>0) requestAnimationFrame(animC);
+  else cctx.clearRect(0,0,cW,cH);
+}
+
+function bigConf(){conf(280);}
+
+/* ─── TRIGGER REVEAL ON P0 IMMEDIATELY ─────────── */
+triggerReveal(document.getElementById('p0'));
+</script>
+</body>
+</html>
